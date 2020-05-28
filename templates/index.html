@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Hashbook.com</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">hashbook.com</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">Profile</a></li>
+      <li><a href="#">Timeline</a></li>
+      <li><a href="#">News</a></li>
+    </ul>
+  </div>
+</nav>
+  
+<div class="container">
+  <div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-6">
+  <div class="card" style="width:100%;">
+    <img class="card-img-top" src="{{url_for('static', filename='second.jpg')}}" alt="Card image" style="width:100%;">
+    
+  </div>
+   <div id="output">
+    </div>
+  <br>
+  <div class="form-group">
+     <label for="comment">Comment Box:</label>
+     <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
+  </div>
+  <button type="submit" class="btn btn-default" id="submit_btn">Post</button>
+</div>
+
+  </div>
+    <br>
+  <div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-6">
+  <div class="card" style="width:100%;">
+    <img class="card-img-top" src="{{url_for('static', filename='first.jpg')}}" alt="Card image" style="width:100%;">
+    
+  </div>
+
+   <div id="output">
+    </div>
+  <br>
+  <div class="form-group">
+     <label for="comment">Comment Box:</label>
+     <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
+  </div>
+  <button type="submit" class="btn btn-default" id="submit_btn">Post</button>
+</div>
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#submit_btn").click(function(){
+    $('#warning').hide();
+    var input_text= $('#comment').val().trim();
+     $.ajax({
+          url:'/process_comment',
+          data:{
+            'text':input_text
+          },
+          dataType: 'json',
+          success:function(data){
+            alert(data.resp);
+            if(data.resp){
+              $('#output').html("<div class='alert alert-success'> successfully posted </div>");
+
+            }
+            else{
+            $('#output').html("<div class='alert alert-danger'><strong>Warning!</strong> Your comment is no ppropriate because it contains toxicity for </div>");
+              }
+          },
+         });
+  });
+});
+</script>
+
+</body>
+</html>
